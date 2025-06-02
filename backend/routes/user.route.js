@@ -1,8 +1,11 @@
 import express from "express";
-import { register, login } from "../controllers/user.controller.js";
-
-
+import { login, logout, register, updateProfile } from "../controllers/user.controller.js";
+import { isAuthenticated } from "../middlewears/isAuthenticated.js";
+const router = express.Router();
 
 router.route("/register").post(register);
 router.route("/login").post(login);
-router.route("/profile").post(updateProfile);
+router.route("/logout").get(logout);
+router.route("/profile").put(isAuthenticated, updateProfile);
+
+export default router;
