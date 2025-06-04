@@ -1,8 +1,8 @@
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { LogOut, UserCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Link } from "react-router-dom";
 
 const Navbar = () => {
     const user = false;
