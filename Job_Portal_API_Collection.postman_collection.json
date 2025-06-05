@@ -1,0 +1,599 @@
+{
+  "info": {
+    "_postman_id": "job-portal-api-collection",
+    "name": "Job Portal API Collection",
+    "description": "Complete API collection for testing Job Portal backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "User Routes",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "fullname",
+                  "value": "John Doe",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "john.doe@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "password123",
+                  "type": "text"
+                },
+                {
+                  "key": "role",
+                  "value": "user",
+                  "type": "text"
+                },
+                {
+                  "key": "phoneNumber",
+                  "value": "+1234567890",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/user/register",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "user", "register"]
+            }
+          }
+        },
+        {
+          "name": "Register Recruiter",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "fullname",
+                  "value": "Jane Smith",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "jane.recruiter@company.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "password123",
+                  "type": "text"
+                },
+                {
+                  "key": "role",
+                  "value": "recruiter",
+                  "type": "text"
+                },
+                {
+                  "key": "phoneNumber",
+                  "value": "+1234567891",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/user/register",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "user", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.token) {",
+                  "        pm.environment.set('USER_TOKEN', response.token);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"user\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/user/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "user", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login Recruiter",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.token) {",
+                  "        pm.environment.set('RECRUITER_TOKEN', response.token);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"jane.recruiter@company.com\",\n  \"password\": \"password123\",\n  \"role\": \"recruiter\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/user/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "user", "login"]
+            }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{USER_TOKEN}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullname\": \"John Updated Doe\",\n  \"phoneNumber\": \"+1234567899\",\n  \"bio\": \"Experienced software developer with 5 years in web development\",\n  \"skills\": \"JavaScript, React, Node.js, MongoDB, Express\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/user/profile",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "user", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{USER_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/user/logout",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "user", "logout"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Company Routes",
+      "item": [
+        {
+          "name": "Register Company",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.company && response.company._id) {",
+                  "        pm.environment.set('COMPANY_ID', response.company._id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{RECRUITER_TOKEN}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyName\": \"TechCorp Solutions\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/company/register",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "company", "register"]
+            }
+          }
+        },
+        {
+          "name": "Get All Companies (User's Companies)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{RECRUITER_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/company/get",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "company", "get"]
+            }
+          }
+        },
+        {
+          "name": "Get Company By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{RECRUITER_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/company/get/{{COMPANY_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "company", "get", "{{COMPANY_ID}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Company",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{RECRUITER_TOKEN}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"TechCorp Solutions Inc.\",\n  \"description\": \"Leading technology solutions provider specializing in web and mobile applications\",\n  \"location\": \"San Francisco, CA\",\n  \"website\": \"https://techcorp-solutions.com\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/company/update/{{COMPANY_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "company", "update", "{{COMPANY_ID}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Job Routes",
+      "item": [
+        {
+          "name": "Post Job",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.job && response.job._id) {",
+                  "        pm.environment.set('JOB_ID', response.job._id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{RECRUITER_TOKEN}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Frontend Developer\",\n  \"description\": \"We are looking for a skilled Frontend Developer to join our team. You will be responsible for building user-facing web applications using modern JavaScript frameworks.\",\n  \"requirements\": \"React, JavaScript, HTML, CSS, Git\",\n  \"location\": \"Remote\",\n  \"salary\": 75000,\n  \"experience\": 2,\n  \"jobType\": \"Full-time\",\n  \"position\": 3,\n  \"companyId\": \"{{COMPANY_ID}}\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/job/post",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "job", "post"]
+            }
+          }
+        },
+        {
+          "name": "Get All Jobs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{USER_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/job/get",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "job", "get"]
+            }
+          }
+        },
+        {
+          "name": "Get Jobs with Keyword Search",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{USER_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/job/get?keyword=frontend",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "job", "get"],
+              "query": [
+                {
+                  "key": "keyword",
+                  "value": "frontend"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Job By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{USER_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/job/get/{{JOB_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "job", "get", "{{JOB_ID}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Admin Jobs (Recruiter's Jobs)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{RECRUITER_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/job/getAdminJobs",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "job", "getAdminJobs"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Application Routes",
+      "item": [
+        {
+          "name": "Apply for Job",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.application && response.application._id) {",
+                  "        pm.environment.set('APPLICATION_ID', response.application._id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{USER_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/application/apply/{{JOB_ID}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "application", "apply", "{{JOB_ID}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Applied Jobs (User's Applications)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{USER_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/application/get",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "application", "get"]
+            }
+          }
+        },
+        {
+          "name": "Get Job Applicants (Recruiter View)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{RECRUITER_TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/application/{{JOB_ID}}/applicants",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "v1", "application", "{{JOB_ID}}", "applicants"]
+            }
+          }
+        },
+        {
+          "name": "Update Application Status - Accept",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{RECRUITER_TOKEN}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"accepted\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/application/status/{{APPLICATION_ID}}/update",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "application",
+                "status",
+                "{{APPLICATION_ID}}",
+                "update"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Application Status - Reject",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{RECRUITER_TOKEN}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"rejected\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/v1/application/status/{{APPLICATION_ID}}/update",
+              "host": ["{{BASE_URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "application",
+                "status",
+                "{{APPLICATION_ID}}",
+                "update"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:8000",
+      "type": "string"
+    }
+  ]
+}

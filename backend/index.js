@@ -4,14 +4,12 @@ import cors from "cors";
 import connectDB from "./db.js";
 import userRoutes from "./routes/user.route.js";
 const app = express();
-import dotenv from "dotenv"; 
+import dotenv from "dotenv";
 import companyRoutes from "./routes/company.route.js";
 import jobRoutes from "./routes/job.route.js";
 import applicationRoutes from "./routes/application.route.js";
 
 dotenv.config({});
-
-
 
 // middleware
 app.use(express.json());
@@ -32,7 +30,7 @@ app.use("/api/v1/company", companyRoutes);
 app.use("/api/v1/job", jobRoutes);
 app.use("/api/v1/application", applicationRoutes);
 
-app.listen(PORT, () => { 
+app.listen(PORT, () => {
     connectDB();
     console.log(`Server is running on port ${PORT}`);
 });
