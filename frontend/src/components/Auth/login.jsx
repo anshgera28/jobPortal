@@ -1,11 +1,17 @@
-
-import Navbar from '../shared/Navbar'
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { RadioGroup } from "../ui/radio-group";
-import { Button } from "../ui/button";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
+import Navbar from '../shared/Navbar';
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { RadioGroup } from "../ui/radio-group";
+
+
+import axios from "axios";
+import { USER_API_END_POINT } from "../../utils/constant";
+
+
 const Login = () => {
     const [input, setInput] = useState({
         email: "",
@@ -18,10 +24,39 @@ const Login = () => {
             [e.target.name]: e.target.value
         })
     }
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(input);
+
+        try {
+            const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            if (res.data.success) {
+                toast.success(res.data.message);
+                localStorage.setItem("user", JSON.stringify(res.data.user));
+                navigate("/");
+            }
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response?.data?.message || "Login failed. Please try again.");
+
+        }
     }
+
+
+
+
+
+
+
+
+
+
     return (
         <div>
             <Navbar />
