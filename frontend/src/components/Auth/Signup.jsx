@@ -134,7 +134,7 @@ const Signup = () => {
                             name="password"
                             onChange={changeEventHandler}
                             placeholder="Enter your password"
-                            autoComplete="new-password"
+                            autoComplete="new-password" // aaaa
                         />
                     </div>
                     <div className="my-2">
